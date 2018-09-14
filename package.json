@@ -1,6 +1,6 @@
 {
   "name": "react-kstate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple react state manager, because redux often is overkill",
   "main": "index.js",
   "scripts": {

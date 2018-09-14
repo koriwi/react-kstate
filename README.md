@@ -8,6 +8,7 @@
 
 #### Basics
 File 1
+You can set state variable by accessing the prop with the same name as the state
 ```js
 import React, { Component } from 'react'
 import { connect } from 'react-kstate'
@@ -27,6 +28,7 @@ export default class Input extends Component {
 ```
 
 File 2
+When you dont specify the fields you want, you get all in props
 ```js
 import React, { Component } from 'react'
 import { connect } from 'react-kstate'
@@ -40,6 +42,7 @@ export default class Input extends Component {
 ```
 #### Advanced
 File 2 with fields specified
+Or you can specify an array with what you want
 ```js
 import React, { Component } from 'react'
 import { connect } from 'react-kstate'
@@ -53,6 +56,8 @@ export default class Input extends Component {
 ```
 
 File 2 with fields modified
+You can also pass a function which gets the values of the state as an object.
+You have to return an object which will then be passed into the component props
 ```js
 import React, { Component } from 'react'
 import { connect } from 'react-kstate'

@@ -1,0 +1,31 @@
+{
+  "name": "react-kstate",
+  "version": "1.0.0",
+  "description": "Simple react state manager, because redux often is overkill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koriwi/react-kstate.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "state",
+    "manager",
+    "statemanager",
+    "connect"
+  ],
+  "author": "koriwi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/koriwi/react-kstate/issues"
+  },
+  "homepage": "https://github.com/koriwi/react-kstate#readme",
+  "dependencies": {
+    "events": "^3.0.0",
+    "react": "^16.5.1"
+  }
+}

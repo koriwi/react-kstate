@@ -74,7 +74,7 @@ export default class KState {
   
   set(varName, value) {
     if (typeof varName === 'string' && value !== undefined) this.vars[varName] = value
-    else if (varName !== null && typeof varName === 'object') this.vars = varName
+    else if (varName !== null && typeof varName === 'object') this.vars = { ...this.vars, ...varName }
     KState.emitter.emit(this.name, this.vars)
   }
 }

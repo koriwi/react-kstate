@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import EventEmitter from 'events'
 
 function isFunction(functionToCheck) {
   return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
@@ -8,8 +7,8 @@ function isFunction(functionToCheck) {
 class Wrapper extends Component {
   constructor(props) {
     super(props)
-    this.state = { [props.on]: props.state  }
-    this.props.listener.on(this.props.on, (fields) => {
+    this.state = { [props.state.name]: props.state  }
+    this.props.register((fields) => {
       let modified = fields
       if (Array.isArray(this.props.fields)) {
         const keys = Object.keys(fields)
@@ -31,8 +30,7 @@ class Wrapper extends Component {
 
 export default class KState {
   static states = []
-  static emitter = new EventEmitter()
-
+  
   static register = (name, vars) => {
     if (!name) return
     KState.states.push(new KState(name, vars))
@@ -52,8 +50,7 @@ export default class KState {
     const state = KState.getState(name)
     return (
       <Wrapper
-        listener={KState.emitter}
-        on={name}
+        register={state.register}
         state={state}
         fields={fields}
       >
@@ -70,12 +67,21 @@ export default class KState {
   constructor(name, vars) {
     this.name = name
     this.vars = vars || {}
+    this.funcs = []
+  }
+
+  register = (func) => {
+    this.funcs.push(func)
   }
   
-  set(varName, value) {
+  emit = (vars) => {
+    this.funcs.forEach(f => f(vars))
+  }
+
+  set = (varName, value) => {
     if (typeof varName === 'string' && value !== undefined) this.vars[varName] = value
     else if (varName !== null && typeof varName === 'object') this.vars = { ...this.vars, ...varName }
-    KState.emitter.emit(this.name, this.vars)
+    this.emit(this.vars)
   }
 }
 

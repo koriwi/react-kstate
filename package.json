@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/koriwi/react-kstate#readme",
   "dependencies": {
-    "events": "^3.0.0",
     "react": "^16.5.1"
   },
   "devDependencies": {

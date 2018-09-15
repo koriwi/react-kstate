@@ -72,9 +72,7 @@ export default class Output extends Component {
 
 ```js
 import KState from 'react-kstate'
-
-//set single value
-KState.set('someState', 'header', 'Hello World')
-//set multiple values
+//set single/multiple values
+KState.set('someState', { header: 'Hello' })
 KState.set('someState', { header1: 'Hello', header2: 'World' })
 ```

@@ -18,7 +18,9 @@
     "state",
     "manager",
     "statemanager",
-    "connect"
+    "connect",
+    "typescript",
+    "ts"
   ],
   "author": "koriwi",
   "license": "MIT",

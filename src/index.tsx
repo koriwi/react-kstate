@@ -6,11 +6,11 @@ interface ModFunction {
   (props: Object): Object
 }
 
-type FieldModifier = string[] | ModFunction | undefined
+type FieldModifier = string[] | ModFunction
 
 interface WrapperProps {
   register: Function,
-  fields: FieldModifier,
+  fields?: FieldModifier,
   state: KState
 }
 
@@ -18,7 +18,7 @@ interface Accessible extends Object {
   [key: string]: any
 }
 
-function isFunc(func: FieldModifier): func is ModFunction {
+function isFunc(func?: FieldModifier): func is ModFunction {
   return func !== undefined && func.length === undefined
 }
 
@@ -26,20 +26,20 @@ class Wrapper extends Component<WrapperProps, any> {
   constructor(props: WrapperProps) {
     super(props)
     this.state = { [props.state.name]: props.state  }
-    this.props.register((fields: Accessible) => {
-      if (Array.isArray(this.props.fields)) {
+    this.props.register((fields?: Accessible) => {
+      if (fields !== undefined && Array.isArray(this.props.fields)) {
         const modified = fields
         const fieldArray: string[] = this.props.fields 
         const keys = Object.keys(fields)
         keys.filter(k => !fieldArray.includes(k)).forEach(f => delete modified[f])
         this.setState({ ...modified })
       }
-      if (isFunc(this.props.fields)) {
+      if (fields !== undefined && isFunc(this.props.fields)) {
         const modFunction: ModFunction = this.props.fields
         const modified = modFunction(fields)
         this.setState({ ...modified })
       }
-      this.setState({ ...fields })
+      fields !== undefined && this.setState({ ...fields })
     })
   }
   render() {
@@ -51,21 +51,21 @@ class Wrapper extends Component<WrapperProps, any> {
 export default class KState {
   static states: KState[] = []
   
-  static register = (name: string, vars: Object): void => {
-    if (!name) return
-    KState.states.push(new KState(name, vars))
+  private static register = (name: string, vars?: Object): KState => {
+    const state = new KState(name, vars)
+    KState.states.push(state)
+    return state
   }
 
-  static getState = (name: string): KState => {
+  private static getState = (name: string): KState => {
     let state = KState.states.find((s: KState) => s.name === name)
     if (state === undefined) { 
-      state = new KState(name)
-      KState.states.push(state)
+      state = KState.register(name)
     }
     return state
   }
   
-  static connect = (name: string, fields: FieldModifier) => <T1 extends {}>(Component: new() => Component) => (props: Object) => {
+  public static connect = (name: string, fields?: FieldModifier) => <T1 extends {}>(Component: new() => Component) => (props: Object) => {
     if (!name) throw new Error('name is mandatory')
     const state = KState.getState(name)
     return (
@@ -79,7 +79,7 @@ export default class KState {
     )
   }
 
-  static set(name: string, fields: Object) {
+  public static set(name: string, fields: Object) {
     const state = KState.getState(name)
     state.set(fields)
   }

@@ -65,7 +65,7 @@ export default class KState {
     return state
   }
   
-  public static connect = (name: string, fields?: FieldModifier) => <T1 extends {}>(Component: new() => Component) => (props: Object) => {
+  public static connect = (name: string, fields?: FieldModifier) => (Component: new () => Component) => (props: Object) => {
     if (!name) throw new Error('name is mandatory')
     const state = KState.getState(name)
     return (

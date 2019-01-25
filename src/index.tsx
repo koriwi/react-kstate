@@ -44,7 +44,7 @@ class Wrapper extends Component<WrapperProps, any> {
   }
   render() {
     const childWithProp = cloneElement(this.props.children as ReactElement<WrapperProps>, { ...this.state });
-    return (<div>{childWithProp}</div>)
+    return (<React.Fragment>{childWithProp}</React.Fragment>)
   }
 }
 
